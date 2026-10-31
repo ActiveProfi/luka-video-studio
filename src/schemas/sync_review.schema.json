@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sync_review.schema.json",
+  "title": "SyncReview",
+  "type": "object",
+  "required": ["job_id", "stage", "version", "created_at", "status", "blocks"],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "sync_review" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string" },
+    "status": { "type": "string", "enum": ["pending", "approved"] },
+    "approved_at": { "type": ["string", "null"] },
+    "approved_by": { "type": ["string", "null"] },
+    "last_saved_at": { "type": ["string", "null"] },
+    "preview_video": { "type": "string" },
+    "global_audio_offset_seconds": { "type": "number" },
+    "blocks": { "type": "array" }
+  }
+}

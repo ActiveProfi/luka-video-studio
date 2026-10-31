@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "timing_decisions.schema.json",
+  "title": "TimingDecisions",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "decisions"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "timing_policy" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "confidence_summary": { "type": "number", "minimum": 0, "maximum": 1 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "decisions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/decision" }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "visual_event_type": { "type": "string" },
+        "instruction_relation": { "type": "string" },
+        "critical_for_learning": { "type": "boolean" }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "candidate_id",
+        "decision",
+        "target_start",
+        "target_end",
+        "confidence",
+        "risk_level",
+        "requires_review"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "remove_audio_video",
+            "trim_soft",
+            "speedup_video",
+            "keep_as_is",
+            "needs_human_review"
+          ]
+        },
+        "target_start": { "type": "number", "minimum": 0 },
+        "target_end": { "type": "number", "minimum": 0 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "risk_level": { "type": "string", "enum": ["low", "medium", "high"] },
+        "routing": {
+          "type": "string",
+          "enum": [
+            "auto_approve",
+            "standard_review",
+            "required_review",
+            "senior_review"
+          ]
+        },
+        "why": { "type": "string" },
+        "requires_review": { "type": "boolean" },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    }
+  }
+}

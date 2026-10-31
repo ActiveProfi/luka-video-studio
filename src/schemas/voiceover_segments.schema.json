@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "voiceover_segments.schema.json",
+  "title": "VoiceoverSegments",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "language",
+    "total_duration_seconds",
+    "segments"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "tts" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "provider": { "type": "string" },
+    "language": { "type": "string" },
+    "total_duration_seconds": { "type": "number", "minimum": 0 },
+    "confidence_summary": { "type": "number", "minimum": 0, "maximum": 1 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "segments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/voiceover_segment" }
+    }
+  },
+  "$defs": {
+    "voiceover_segment": {
+      "type": "object",
+      "required": [
+        "segment_id",
+        "transcript_segment_id",
+        "text",
+        "target_start",
+        "target_end",
+        "audio_start",
+        "audio_end"
+      ],
+      "properties": {
+        "segment_id": { "type": "string" },
+        "transcript_segment_id": { "type": "string" },
+        "text": { "type": "string" },
+        "target_start": { "type": "number", "minimum": 0 },
+        "target_end": { "type": "number", "minimum": 0 },
+        "target_slot_seconds": { "type": "number", "minimum": 0 },
+        "audio_start": { "type": "number", "minimum": 0 },
+        "audio_end": { "type": "number", "minimum": 0 },
+        "audio_duration_seconds": { "type": "number", "minimum": 0 },
+        "provider": { "type": "string" }
+      }
+    }
+  }
+}

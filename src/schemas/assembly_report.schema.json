@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "assembly_report.schema.json",
+  "title": "AssemblyReport",
+  "type": "object",
+  "required": ["job_id", "stage", "version", "created_at", "status", "output_file"],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "assembly" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string" },
+    "status": { "type": "string" },
+    "output_file": { "type": "string" },
+    "global_audio_offset_seconds": { "type": "number" },
+    "notes": { "type": "string" }
+  }
+}

@@ -1,0 +1,50 @@
+# Secrets and local config
+.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Output artifacts
+output/
+backups/
+Итоговые видео инструкции/
+Итоговые рекламные ролики/
+Архив/
+assets/ocr_models/
+*.mp4
+!assets/intro.mp4
+!assets/outro.mp4
+
+# Fixtures (large video files)
+fixtures/*.mp4
+
+# IDE
+.idea/
+.vscode/
+
+# Credentials (move to .env)
+Yandex GPT.txt
+Api key*
+*.docx
+
+# Frontend
+review-ui/node_modules/
+motion-renderer/node_modules/
+.remotion/
+
+# Cursor local
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db

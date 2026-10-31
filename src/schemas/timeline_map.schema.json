@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "timeline_map.schema.json",
+  "title": "TimelineMap",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "source_duration_seconds",
+    "target_duration_seconds",
+    "segments"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "timeline_map" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "confidence_summary": { "type": "number", "minimum": 0, "maximum": 1 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "source_duration_seconds": { "type": "number", "minimum": 0 },
+    "target_duration_seconds": { "type": "number", "minimum": 0 },
+    "segments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/timeline_segment" }
+    }
+  },
+  "$defs": {
+    "timeline_segment": {
+      "type": "object",
+      "required": [
+        "segment_index",
+        "source_start",
+        "source_end",
+        "target_start",
+        "target_end",
+        "transform"
+      ],
+      "properties": {
+        "segment_index": { "type": "integer", "minimum": 0 },
+        "source_start": { "type": "number", "minimum": 0 },
+        "source_end": { "type": "number", "minimum": 0 },
+        "target_start": { "type": "number", "minimum": 0 },
+        "target_end": { "type": "number", "minimum": 0 },
+        "transform": {
+          "type": "string",
+          "enum": ["keep", "removed", "trim_soft", "speedup_video"]
+        },
+        "speed_factor": { "type": ["number", "null"], "minimum": 0.1 },
+        "trim_removed_seconds": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

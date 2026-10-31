@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "annotation_review.schema.json",
+  "title": "AnnotationReview",
+  "type": "object",
+  "required": ["job_id", "stage", "version", "created_at", "status", "blocks"],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "annotations_review" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["pending", "approved"] },
+    "approved_at": { "type": ["string", "null"] },
+    "approved_by": { "type": ["string", "null"] },
+    "last_saved_at": { "type": ["string", "null"] },
+    "preview_video": { "type": "string" },
+    "blocks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/review_block" }
+    }
+  },
+  "$defs": {
+    "review_block": {
+      "type": "object",
+      "required": ["block_id", "block_index", "target_start", "target_end", "text", "annotations"],
+      "properties": {
+        "block_id": { "type": "string" },
+        "block_index": { "type": "integer", "minimum": 1 },
+        "segment_id": { "type": "string" },
+        "target_start": { "type": "number", "minimum": 0 },
+        "target_end": { "type": "number", "minimum": 0 },
+        "text": { "type": "string" },
+        "user_comment": { "type": "string" },
+        "annotations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["annotation_id", "type", "label"],
+            "properties": {
+              "annotation_id": { "type": "string" },
+              "type": { "type": "string" },
+              "type_label": { "type": "string" },
+              "label": { "type": "string" },
+              "target_start": { "type": "number" },
+              "target_end": { "type": "number" },
+              "style": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "annotation_suggestions.schema.json",
+  "title": "AnnotationSuggestions",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "suggestions"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "annotations" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "provider": { "type": "string" },
+    "target_duration_seconds": { "type": "number", "minimum": 0 },
+    "confidence_summary": { "type": "number", "minimum": 0, "maximum": 1 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "reference_style": { "type": "string" },
+    "pending_review_count": { "type": "integer", "minimum": 0 },
+    "preview_video": { "type": "string" },
+    "last_placement_at": { "type": "string" },
+    "suggestions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/annotation_item" }
+    }
+  },
+  "$defs": {
+    "anchor": {
+      "type": "object",
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "width": { "type": "number", "minimum": 0, "maximum": 1 },
+        "height": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "annotation_item": {
+      "type": "object",
+      "required": [
+        "annotation_id",
+        "type",
+        "target_start",
+        "target_end",
+        "label",
+        "confidence"
+      ],
+      "properties": {
+        "annotation_id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["arrow", "highlight_rect", "zoom", "callout", "frame"]
+        },
+        "target_start": { "type": "number", "minimum": 0 },
+        "target_end": { "type": "number", "minimum": 0 },
+        "label": { "type": "string" },
+        "anchor": {
+          "oneOf": [
+            { "$ref": "#/$defs/anchor" },
+            { "type": "null" }
+          ]
+        },
+        "style": { "type": "string" },
+        "linked_segment_id": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "requires_review": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "placement_confirmed": { "type": "boolean" },
+        "skipped": { "type": "boolean" },
+        "frame_file": { "type": ["string", "null"] },
+        "frame_error": { "type": "string" },
+        "arrow_direction": {
+          "type": ["string", "null"],
+          "enum": ["top", "bottom", "left", "right", null]
+        },
+        "arrow_length_ratio": {
+          "type": ["number", "null"],
+          "minimum": 0.01,
+          "maximum": 0.5
+        },
+        "placed_at": { "type": "string" },
+        "placed_by": { "type": "string" }
+      }
+    }
+  }
+}

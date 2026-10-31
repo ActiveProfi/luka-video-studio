@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sync_plan.schema.json",
+  "title": "SyncPlan",
+  "type": "object",
+  "required": ["job_id", "stage", "version", "created_at", "status", "blocks"],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "voice_video_sync" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string" },
+    "status": { "type": "string" },
+    "video_duration_seconds": { "type": "number" },
+    "voiceover_duration_seconds": { "type": "number" },
+    "duration_delta_seconds": { "type": "number" },
+    "global_audio_offset_seconds": { "type": "number" },
+    "preview_video": { "type": "string" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "blocks": { "type": "array", "items": { "$ref": "#/$defs/sync_block" } }
+  },
+  "$defs": {
+    "sync_block": {
+      "type": "object",
+      "required": ["block_id", "block_index", "target_start", "target_end", "text"],
+      "properties": {
+        "block_id": { "type": "string" },
+        "block_index": { "type": "integer" },
+        "text": { "type": "string" },
+        "target_start": { "type": "number" },
+        "target_end": { "type": "number" },
+        "offset_adjustment_seconds": { "type": "number" },
+        "recommended_offset_seconds": { "type": "number" },
+        "user_comment": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "subtitle_timing.schema.json",
+  "title": "SubtitleTiming",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "language",
+    "total_duration_seconds",
+    "cue_count",
+    "cues"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "subtitles" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "language": { "type": "string" },
+    "total_duration_seconds": { "type": "number", "minimum": 0 },
+    "cue_count": { "type": "integer", "minimum": 0 },
+    "confidence_summary": { "type": "number", "minimum": 0, "maximum": 1 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "cues": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/subtitle_cue" }
+    },
+    "text_edited_at": { "type": "string" },
+    "text_edited_by": { "type": "string" },
+    "voiceover_unchanged": { "type": "boolean" }
+  },
+  "$defs": {
+    "subtitle_cue": {
+      "type": "object",
+      "required": ["cue_id", "start", "end", "text"],
+      "properties": {
+        "cue_id": { "type": "string" },
+        "source_segment_id": { "type": "string" },
+        "start": { "type": "number", "minimum": 0 },
+        "end": { "type": "number", "minimum": 0 },
+        "text": { "type": "string" }
+      }
+    }
+  }
+}

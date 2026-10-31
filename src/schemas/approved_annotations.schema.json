@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "approved_annotations.schema.json",
+  "title": "ApprovedAnnotations",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "annotations"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "annotations" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "approved_at": { "type": "string", "format": "date-time" },
+    "approved_by": { "type": "string" },
+    "auto_approved_count": { "type": "integer", "minimum": 0 },
+    "pending_review_count": { "type": "integer", "minimum": 0 },
+    "user_comments_count": { "type": "integer", "minimum": 0 },
+    "annotations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/annotation_item" }
+    }
+  },
+  "$defs": {
+    "anchor": {
+      "type": "object",
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0, "maximum": 1 },
+        "y": { "type": "number", "minimum": 0, "maximum": 1 },
+        "width": { "type": "number", "minimum": 0, "maximum": 1 },
+        "height": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "annotation_item": {
+      "type": "object",
+      "required": [
+        "annotation_id",
+        "type",
+        "target_start",
+        "target_end",
+        "label",
+        "anchor",
+        "style",
+        "confidence"
+      ],
+      "properties": {
+        "annotation_id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["arrow", "highlight_rect", "zoom", "callout"]
+        },
+        "target_start": { "type": "number", "minimum": 0 },
+        "target_end": { "type": "number", "minimum": 0 },
+        "label": { "type": "string" },
+        "anchor": { "$ref": "#/$defs/anchor" },
+        "style": { "type": "string" },
+        "linked_segment_id": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "requires_review": { "type": "boolean" },
+        "reason": { "type": "string" },
+        "approved": { "type": "boolean" },
+        "block_comment": { "type": "string" }
+      }
+    }
+  }
+}

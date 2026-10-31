@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "approved_sync.schema.json",
+  "title": "ApprovedSync",
+  "type": "object",
+  "required": ["job_id", "stage", "version", "created_at", "status", "global_audio_offset_seconds"],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "voice_video_sync" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string" },
+    "status": { "type": "string" },
+    "approved_at": { "type": "string" },
+    "approved_by": { "type": "string" },
+    "global_audio_offset_seconds": { "type": "number" },
+    "blocks": { "type": "array" }
+  }
+}

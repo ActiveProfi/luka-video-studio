@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "edits_map.schema.json",
+  "title": "EditsMap",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "edits"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "speech_cleanup" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "confidence_summary": { "type": "number", "minimum": 0, "maximum": 1 },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "edits": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edit" }
+    }
+  },
+  "$defs": {
+    "edit": {
+      "type": "object",
+      "required": [
+        "edit_id",
+        "source_start",
+        "source_end",
+        "problem_type",
+        "proposed_action",
+        "confidence",
+        "risk_level"
+      ],
+      "properties": {
+        "edit_id": { "type": "string" },
+        "segment_ids": { "type": "array", "items": { "type": "string" } },
+        "source_start": { "type": "number", "minimum": 0 },
+        "source_end": { "type": "number", "minimum": 0 },
+        "problem_type": {
+          "type": "string",
+          "enum": [
+            "filler_word",
+            "self_correction",
+            "repetition",
+            "long_pause",
+            "false_start",
+            "irrelevant"
+          ]
+        },
+        "original_text": { "type": "string" },
+        "proposed_action": {
+          "type": "string",
+          "enum": ["remove", "replace", "trim", "keep"]
+        },
+        "proposed_text": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "explanation": { "type": "string" },
+        "risk_level": { "type": "string", "enum": ["low", "medium", "high"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cleanup_review.schema.json",
+  "title": "CleanupReview",
+  "type": "object",
+  "required": ["job_id", "stage", "version", "created_at", "status"],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "speech_cleanup_review" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": { "type": "string", "enum": ["pending", "approved"] },
+    "approved_at": { "type": ["string", "null"] },
+    "approved_by": { "type": ["string", "null"] },
+    "manual_edits_count": { "type": "integer", "minimum": 0 },
+    "last_saved_at": { "type": ["string", "null"] }
+  }
+}

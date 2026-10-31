@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "review_bundle.schema.json",
+  "title": "ReviewBundle",
+  "type": "object",
+  "required": [
+    "job_id",
+    "stage",
+    "version",
+    "created_at",
+    "source_artifacts",
+    "status",
+    "items"
+  ],
+  "properties": {
+    "job_id": { "type": "string" },
+    "stage": { "const": "timing_review_bundle" },
+    "version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source_artifacts": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "needs_review"]
+    },
+    "confidence_summary": {
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "errors": { "type": "array", "items": { "type": "string" } },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/review_item" }
+    }
+  },
+  "$defs": {
+    "review_item": {
+      "type": "object",
+      "required": [
+        "review_id",
+        "candidate_id",
+        "video_excerpt_start",
+        "video_excerpt_end",
+        "proposed_decision",
+        "confidence",
+        "reason_for_review"
+      ],
+      "properties": {
+        "review_id": { "type": "string" },
+        "candidate_id": { "type": "string" },
+        "video_excerpt_start": { "type": "number", "minimum": 0 },
+        "video_excerpt_end": { "type": "number", "minimum": 0 },
+        "proposed_decision": { "type": "string" },
+        "alternative_decisions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "routing": { "type": "string" },
+        "reason_for_review": { "type": "string" },
+        "evidence": { "type": "object" },
+        "context_transcript": { "type": "string" }
+      }
+    }
+  }
+}
